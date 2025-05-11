@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Web Proxy</title>
+</head>
+<body>
+  <h1>Simple Proxy</h1>
+  <input type="text" id="urlInput" placeholder="Enter URL" />
+  <button onclick="fetchProxy()">Fetch</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function fetchProxy() {
+      const url = document.getElementById('urlInput').value;
+      const output = document.getElementById('output');
+
+      try {
+        const response = await fetch('https://your-proxy.onrender.com/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const text = await response.text();
+        output.textContent = text.slice(0, 5000); // show first 5000 chars
+      } catch (err) {
+        output.textContent = 'Error: ' + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
